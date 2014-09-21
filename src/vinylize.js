@@ -1,5 +1,7 @@
 require(
   [
+    'jsx/main'
   ]
-  , function () {
+  , function (Main) {
+    Main();
 });
