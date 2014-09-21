@@ -19,7 +19,10 @@ module.exports = function(grunt) {
         options: {
           include: ['src/vinylize'],
           insertRequire: ['src/vinylize'],
-          out: 'build/dev/' + pkg.name + '.js'
+          out: 'build/dev/' + pkg.name + '.js',
+          paths: {
+            'jsx': 'src/jsx-comp'
+          }
         }
       }
     },
@@ -60,14 +63,27 @@ module.exports = function(grunt) {
             dest: "build/prod"
           }
         ],
-                    options: {
-              process: function (content, srcpath) {
-                var prodContent = content;
-                prodContent = content.replace(/build\/dev\/vinylize.js/g, "vinylize.min.js");
-                prodContent = prodContent.replace(/build\/dev\/main.css/g, "main.css");
-                return prodContent;
-              }
-            }
+        options: {
+          process: function (content, srcpath) {
+            var prodContent = content;
+            prodContent = content.replace(/build\/dev\/vinylize.js/g, "vinylize.min.js");
+            prodContent = prodContent.replace(/build\/dev\/main.css/g, "main.css");
+            return prodContent;
+          }
+        }
+      }
+    },
+    react: {
+      compile: {
+        files: [
+          {
+            expand: true,
+            cwd: 'src/jsx',
+            src: ['**/*.jsx'],
+            dest: 'src/jsx-comp',
+            ext: '.js'
+          }
+        ]
       }
     }
   });
@@ -78,8 +94,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-react');
 
   // Default task(s).
-  grunt.registerTask('prod', ['requirejs', 'uglify', 'compass', 'copy']);
-  grunt.registerTask('default', ['requirejs', 'compass', 'connect']);
+  grunt.registerTask('prod', ['react:compile', 'requirejs', 'uglify', 'compass', 'copy']);
+  grunt.registerTask('default', ['react:compile', 'requirejs', 'compass', 'connect']);
 };
