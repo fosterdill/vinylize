@@ -1,0 +1,6 @@
+/* line 1, ../../src/scss/main.scss */
+body > div {
+  width: 200px;
+  height: 200px;
+  background: red;
+}
