@@ -21,7 +21,9 @@ module.exports = function(grunt) {
           insertRequire: ['src/vinylize'],
           out: 'build/dev/' + pkg.name + '.js',
           paths: {
-            'jsx': 'src/jsx-comp'
+            'jsx': 'src/jsx-comp',
+            'dropzone': 'node_modules/dropzone/downloads/dropzone',
+            'mp3': 'node_modules/av/node_modules/mp3/build/mp3'
           }
         }
       }
